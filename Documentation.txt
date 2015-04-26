@@ -1,0 +1,213 @@
+Function prototype:
+pqueue::pqueue(int qsize);
+
+Function description:
+Constructor for the pqueue object. Creates a new pqueue by initializing the
+Queue size, queue head, queue tail, and array for the queue.
+
+Example:
+pqueue *Q = new pqueue(10);
+
+Pre-conditions:
+int qsize is a valid integer value
+Post-conditions:
+The new pqueue object has an array of size queue size full of null 
+delivery structs, and the queue head and tail are set to zero.
+
+inline pqueue::pqueue(int qsize)
+{
+    qSize = qsize;
+    qHead = 0;
+    qTail = 0;
+    arrayQ = new delivery[qSize];
+    for (int i = 0; i < qSize; i++)
+        arrayQ[i] = nil;
+}
+
+Function prototype:
+pqueue::~pqueue()
+
+Function description:
+Destructor for the pqueue object. Frees the memory associated with the array.
+
+Example:
+pqueue *Q = new pqueue(10);
+Q->~pqueue();
+
+Pre-conditions:
+The pqueue object calling the function has a valid array to be deleted.
+Post-conditions:
+The memory associated with the array is freed.
+
+pqueue::~pqueue()
+{
+    arrayQ = NULL;
+    delete arrayQ;
+}
+
+Function prototype:
+void pqueue::enqueue(delivery a)
+
+Function description:
+Enqueues the deliver into the array. The delivery is stored at the position of 
+the queue tail, and the queue tail is incremented. If the tail reaches the end
+of the array, it loops back to the beginning.
+
+Example:
+pqueue *Q = new pqueue(10);
+delivery a;
+Q->enqueue(a);
+
+Pre-conditions:
+a is a valid delivery struct
+
+Post-conditions:
+Delivery is stored in queue, queue tail is moved up.
+
+inline void pqueue::enqueue(delivery a)
+{
+    if (qTail == qSize)
+    {
+        cout<<"Queue full"<<endl;
+        return;
+    }
+    arrayQ[qTail] = a;
+    qTail++;
+    if (qTail == qSize)
+    qTail = 0;
+}
+
+Function prototype:
+delivery pqueue::dequeue()
+
+Function description:
+Dequeues the delivery from the array located at the queue head, and returns
+that delivery. If the array is empty, returns a null delivery. Otherwise,
+increments the queue head, which loops around if it reaches the end
+of the array.
+
+Example:
+pqueue *Q = new pqueue(10);
+Q->dequeue(a);
+
+Pre-conditions:
+The pqueue is a valid pqueue object with an array.
+Post-conditions:
+Queue head will be incremented, and returns the delivery previously at the
+head of the array.
+
+inline delivery pqueue::dequeue()
+{
+    int countr = 0;
+    for (int i = 0; i < qSize; i++)
+    {
+        if (arrayQ[i].name == "")
+            countr++;
+    }
+    if (countr == qSize)
+    {
+        cout<<"Array empty"<<endl;
+        return nil;
+    }
+
+    delivery dequeued = arrayQ[qHead];
+
+    delivery *copyarr = arrayQ;
+    qHead++;
+    if (qHead == qSize)
+    qHead == 0;
+    for (int i = qHead; i < qSize; i++)
+    {
+        copyarr[i] = arrayQ[i];
+    }
+    arrayQ = copyarr;
+
+    return dequeued;
+}
+
+Function prototype:
+void pqueue::printQueue()
+
+Function description:
+Prints all of the delivery names and priorities in the queue
+
+Example:
+Q->printQueue();
+
+Pre-conditions:
+pqueue has a valid queue
+
+Post-conditions:
+
+inline void pqueue::printQueue()
+{
+    for (int i = 0; i < qSize; i++)
+    {
+        cout<<"City to be delivered to:"<<arrayQ[i].name<<", Priority:"<<arrayQ[i].priority<<endl;
+    }
+}
+
+Function prototype:
+void pqueue::sortHighestPriority()
+
+Function description:
+Sorts the objects in the queue based on their priority, highest first.
+
+Example:
+Q->sortHighestPriority();
+
+Pre-conditions:
+The pqueue object has a valid array
+Post-conditions:
+The array will be sorted based on priority rather than the order of inputs.
+
+inline void pqueue::sortHighestPriority()
+{
+    delivery temp;
+
+    for (int i = 0; i < qHead-1; i++)
+    {
+        for (int j = 0; j < qHead-i-1; j++)
+        {
+            if (arrayQ[j].priority > arrayQ[j+1].priority)
+            {
+                temp = arrayQ[j];
+                arrayQ[j] = arrayQ[j+1];
+                arrayQ[j+1] = temp;
+            }
+        }
+    }
+}
+
+Function prototype:
+void pqueue::sortLowestPriority()
+
+Function description:
+Identical to sortHighestPriority(), but sorts lowest priority first instead
+of highest first
+
+Example:
+Q->sortLowestPriority();
+
+Pre-conditions:
+The pqueue object has a valid array
+Post-conditions:
+The array will be sorted based on priority rather than the order of inputs.
+
+inline void pqueue::sortLowestPriority()
+{
+    delivery temp;
+
+    for (int i = 0; i < qHead-1; i++)
+    {
+        for (int j = 0; j < qHead-i-1; j++)
+        {
+            if (arrayQ[j].priority < arrayQ[j+1].priority)
+            {
+                temp = arrayQ[j];
+                arrayQ[j] = arrayQ[j+1];
+                arrayQ[j+1] = temp;
+            }
+        }
+    }
+}
