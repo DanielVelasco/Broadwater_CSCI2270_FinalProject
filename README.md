@@ -18,3 +18,4 @@ Jake Broadwater
 Contributors:
 
 Open Issues/Bugs:
+The text input for the driver file will break if you enter a word followed by a space. Stick to one word entries for now.
