@@ -26,8 +26,10 @@ class pqueue
         void printQueue();
         void sortLowestPriority();
         void sortHighestPriority();
+        void addDeliveryLocation(std::string str);
         delivery * getQueue();
         delivery searchQueue(std::string name);
+        node *headOfDelivery;
     private:
         //node *head;
         //node *tail;

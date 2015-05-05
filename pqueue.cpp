@@ -114,3 +114,13 @@ inline void pqueue::sortLowestPriority()
         }
     }
 }
+
+
+inline void pqueue::addDeliveryLocation(string string_locToADD)
+{
+    node *placeToADD = new node;
+    placeToADD->name = string_locToADD;
+    placeToADD->n = NULL;
+    placeToADD->n = headOfDelivery;
+    headOfDelivery = placeToADD;
+}
